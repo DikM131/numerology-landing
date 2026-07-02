@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
+import { Button } from '../ui';
 
 export default function NotImplementedModal({ isOpen, onClose }) {
   return (
@@ -40,12 +41,9 @@ export default function NotImplementedModal({ isOpen, onClose }) {
                 Следите за обновлениями.
               </p>
             </div>
-            <button
-              onClick={onClose}
-              className="btn-gold px-8 py-3 rounded-full text-sm font-medium"
-            >
+            <Button onClick={onClose} size="lg">
               Закрыть
-            </button>
+            </Button>
           </motion.div>
         </motion.div>
       )}

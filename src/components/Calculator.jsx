@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { numberDescriptions } from '../data/numerologyData';
+import { Container, Section } from '../ui';
 import ResultSection from './ResultSection';
 import BlurredBlock from './BlurredBlock';
 import ScrollReveal from './ScrollReveal';
@@ -18,9 +19,9 @@ export default function Calculator({ name, birthDate, onReset }) {
   const data = numberDescriptions[number];
 
   return (
-    <section className="relative z-10 py-16 md:py-24" id="result">
+    <Section id="result">
       <ScrollReveal>
-        <div className="max-w-4xl mx-auto px-6 md:px-10">
+        <Container className="max-w-4xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={number}
@@ -44,8 +45,8 @@ export default function Calculator({ name, birthDate, onReset }) {
               </div>
             </motion.div>
           </AnimatePresence>
-        </div>
+        </Container>
       </ScrollReveal>
-    </section>
+    </Section>
   );
 }

@@ -1,9 +1,10 @@
 import { Lock } from 'lucide-react';
+import { Card } from '../ui';
 
 export default function BlurredBlock() {
   return (
-    <div className="relative overflow-hidden rounded-3xl">
-      <div className="glass rounded-3xl p-10 md:p-14 text-center space-y-6 relative">
+    <div className="relative overflow-hidden rounded-card">
+      <Card hover={false} padding={false} className="text-center space-y-6 relative p-8 md:p-10">
         <div className="absolute inset-0 backdrop-blur-xl z-10 flex flex-col items-center justify-center rounded-3xl">
           <div className="w-16 h-16 rounded-full bg-amber-400/5 flex items-center justify-center mb-6">
             <Lock className="w-7 h-7 text-amber-400/40" />
@@ -44,7 +45,7 @@ export default function BlurredBlock() {
             ))}
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

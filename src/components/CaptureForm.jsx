@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Phone, ArrowRight, Lock } from 'lucide-react';
+import { User, Phone, ArrowRight, Lock, Check } from 'lucide-react';
+import { Container, Section, Card, Input, Button } from '../ui';
 import ScrollReveal from './ScrollReveal';
 
 export default function CaptureForm() {
@@ -12,10 +13,10 @@ export default function CaptureForm() {
   };
 
   return (
-    <section id="capture" className="relative z-10 py-16 md:py-24">
+    <Section id="capture">
       <ScrollReveal>
-        <div className="max-w-4xl mx-auto px-6 md:px-10">
-          <div className="glass rounded-3xl p-8 md:p-14 glow-gold">
+        <Container className="max-w-4xl">
+          <Card hover={false} padding={false} className="shadow-gold p-8 md:p-14">
             {!submitted ? (
               <div className="max-w-lg mx-auto space-y-8">
                 <div className="text-center space-y-3">
@@ -30,33 +31,13 @@ export default function CaptureForm() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-premium-text-secondary/40" />
-                    <input
-                      type="text"
-                      placeholder="Ваше имя"
-                      className="input-premium px-5 pl-12"
-                      required
-                    />
-                  </div>
+                  <Input icon={User} type="text" placeholder="Ваше имя" required />
+                  <Input icon={Phone} type="tel" placeholder="+7 (___) ___-__-__" required />
 
-                  <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-premium-text-secondary/40" />
-                    <input
-                      type="tel"
-                      placeholder="+7 (___) ___-__-__"
-                      className="input-premium px-5 pl-12"
-                      required
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn-gold w-full py-4 rounded-2xl text-base font-medium flex items-center justify-center gap-2 group"
-                  >
+                  <Button type="submit" size="xl" className="w-full">
                     Раскрыть полную карту и получить бонус
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
+                  </Button>
                 </form>
 
                 <div className="flex items-center justify-center gap-2 text-premium-text-secondary/30 text-xs font-sans">
@@ -71,19 +52,7 @@ export default function CaptureForm() {
                 className="text-center space-y-6 py-8"
               >
                 <div className="w-16 h-16 rounded-full bg-amber-400/10 flex items-center justify-center mx-auto">
-                  <svg
-                    className="w-7 h-7 text-amber-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                  <Check className="w-7 h-7 text-amber-400" />
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-serif text-2xl font-light text-premium-text">
@@ -95,9 +64,9 @@ export default function CaptureForm() {
                 </div>
               </motion.div>
             )}
-          </div>
-        </div>
+          </Card>
+        </Container>
       </ScrollReveal>
-    </section>
+    </Section>
   );
 }

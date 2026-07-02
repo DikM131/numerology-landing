@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Card } from '../ui';
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -31,10 +32,7 @@ export default function ResultSection({ name, number, data }) {
         </h2>
       </motion.div>
 
-      <motion.div
-        variants={fadeUp}
-        className="relative"
-      >
+      <motion.div variants={fadeUp} className="relative">
         <motion.div
           initial={{ opacity: 0, scale: 0.3, rotate: -10 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -67,19 +65,14 @@ export default function ResultSection({ name, number, data }) {
         <p className="text-premium-text-secondary text-base md:text-lg font-sans leading-relaxed font-light">
           {data.description}
         </p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="glass rounded-2xl p-6 md:p-8"
-        >
+        <Card hover={false} padding={false} className="rounded-2xl p-6 md:p-8 text-left">
           <p className="text-sm text-premium-text-secondary font-sans uppercase tracking-widest mb-3">
             Ваша главная сила
           </p>
           <p className="text-premium-text font-serif text-lg md:text-xl font-light italic">
-            "{data.strength}"
+            &ldquo;{data.strength}&rdquo;
           </p>
-        </motion.div>
+        </Card>
       </motion.div>
     </motion.div>
   );

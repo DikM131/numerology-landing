@@ -1,6 +1,19 @@
 import { motion } from 'framer-motion';
 import { Users, FileText, Gem } from 'lucide-react';
-import ScrollReveal from './ScrollReveal';
+import { Container, Divider, IconBox } from '../ui';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+};
 
 const stats = [
   { icon: Users, value: '1 200+', label: 'Проведённых консультаций' },
@@ -10,43 +23,42 @@ const stats = [
 
 export default function Advantages() {
   return (
-    <section className="relative z-10 pb-16 md:pb-24">
-      <ScrollReveal>
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="divider-premium mb-12" />
+    <div className="relative z-10 pb-section-sm">
+      <Container>
+        <Divider className="mb-12" />
 
-          <div className="grid sm:grid-cols-3 gap-8">
-            {stats.map((stat, i) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={i}
-                  className="text-center space-y-3"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -8, scale: 1.03, transition: { duration: 0.3 } }}
-                >
-                  <div className="w-12 h-12 rounded-full bg-amber-400/5 flex items-center justify-center mx-auto">
-                    <Icon className="w-5 h-5 text-amber-400/70" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="font-serif text-xl md:text-2xl font-light text-premium-text">
-                      {stat.value}
-                    </p>
-                    <p className="text-premium-text-secondary text-sm font-sans">
-                      {stat.label}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="grid sm:grid-cols-3 gap-8"
+        >
+          {stats.map((stat, i) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={i}
+                variants={itemVariants}
+                className="text-center space-y-3"
+                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }}
+              >
+                <IconBox icon={Icon} size="md" className="!mx-auto" />
+                <div className="space-y-1">
+                  <p className="font-serif text-xl md:text-2xl font-light text-premium-text">
+                    {stat.value}
+                  </p>
+                  <p className="text-premium-text-secondary text-sm font-sans">
+                    {stat.label}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
-          <div className="divider-premium mt-12" />
-        </div>
-      </ScrollReveal>
-    </section>
+        <Divider className="mt-12" />
+      </Container>
+    </div>
   );
 }
