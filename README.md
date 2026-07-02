@@ -2,20 +2,22 @@
 
 Современный премиальный лендинг для нумеролога.
 
-## Стек
+## ✨ Особенности
 
+- Premium UI
 - React
-- Vite
 - Tailwind CSS
 - Framer Motion
-- Lucide React
+- Glassmorphism
+- Luxury Design System
+- Responsive
 
-## Запуск
+## 🚀 Запуск
 
 npm install
 
 npm run dev
 
-## Сборка
+## 📦 Сборка
 
 npm run build
