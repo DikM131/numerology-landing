@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useCallback } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Calendar, User, ArrowRight, Shield, Sparkles, BarChart3, Lock } from 'lucide-react';
 import { Container, GlassCard, Input, Button } from '../ui';
 
@@ -38,22 +38,40 @@ export default function Hero({ onCalculate }) {
     }
   };
 
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const springX = useSpring(mouseX, { stiffness: 80, damping: 25 });
+  const springY = useSpring(mouseY, { stiffness: 80, damping: 25 });
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [mouseX, mouseY]);
+
+  const sphereX = useTransform(springX, [0, 1], [-12, 12]);
+  const sphereY = useTransform(springY, [0, 1], [-12, 12]);
+  const ring1X = useTransform(springX, [0, 1], [-8, 8]);
+  const ring1Y = useTransform(springY, [0, 1], [-8, 8]);
+  const ring2X = useTransform(springX, [0, 1], [10, -10]);
+  const ring2Y = useTransform(springY, [0, 1], [10, -10]);
+  const ring3X = useTransform(springX, [0, 1], [-5, 5]);
+  const ring3Y = useTransform(springY, [0, 1], [-5, 5]);
+
   return (
     <section
       id="hero"
       className="relative min-h-screen flex items-center overflow-hidden"
+      onMouseMove={handleMouseMove}
     >
-      {/* Deep background layers */}
       <div className="absolute inset-0 bg-premium-bg" />
 
-      {/* Large central radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1400px] max-h-[1400px] rounded-full"
         style={{
           background: 'radial-gradient(circle at center, rgba(251,191,36,0.06) 0%, transparent 60%)',
         }}
       />
 
-      {/* Floating blurred gradient orbs */}
       <motion.div
         className="absolute top-[15%] right-[8%] w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
@@ -74,71 +92,118 @@ export default function Hero({ onCalculate }) {
         transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
       />
 
-      {/* Decorative elements */}
-
-      {/* Thin golden ring top-right */}
-      <motion.div
-        className="absolute top-[12%] right-[12%] w-[140px] h-[140px] pointer-events-none"
-        style={{ border: '1px solid rgba(251,191,36,0.08)', borderRadius: '50%' }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-      />
-      <motion.div
-        className="absolute top-[12%] right-[12%] w-[140px] h-[140px] pointer-events-none"
-        style={{ border: '1px solid rgba(251,191,36,0.04)', borderRadius: '50%', transform: 'scale(1.4)' }}
-        animate={{ rotate: -360 }}
-        transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
-      />
-
-      {/* Thin golden ring bottom-left */}
-      <motion.div
-        className="absolute bottom-[20%] left-[8%] w-[100px] h-[100px] pointer-events-none"
-        style={{ border: '1px solid rgba(251,191,36,0.06)', borderRadius: '50%' }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
-      />
-
-      {/* Thin golden lines */}
-      <div className="absolute top-[45%] left-0 w-[200px] h-[1px] pointer-events-none"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.08), transparent)' }}
-      />
-      <div className="absolute top-[70%] right-0 w-[300px] h-[1px] pointer-events-none"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.06), transparent)' }}
-      />
-      <div className="absolute top-0 left-[20%] w-[1px] h-[200px] pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, transparent, rgba(251,191,36,0.06), transparent)' }}
-      />
-      <div className="absolute bottom-0 right-[25%] w-[1px] h-[150px] pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, transparent, rgba(251,191,36,0.04), transparent)' }}
-      />
-
-      {/* Golden floating dots */}
-      {[...Array(12)].map((_, i) => (
+      {/* Massive background sphere — spans full section */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         <motion.div
-          key={`dot-${i}`}
-          className="absolute w-[3px] h-[3px] rounded-full pointer-events-none"
+          className="rounded-full"
           style={{
-            background: 'rgba(251,191,36,0.3)',
-            boxShadow: '0 0 6px rgba(251,191,36,0.2)',
-            top: `${8 + (i * 7) % 85}%`,
-            left: `${5 + (i * 11) % 90}%`,
+            position: 'absolute',
+            top: '50%',
+            left: 'calc(58% + 150px)',
+            width: 'min(90vw, 1200px)',
+            height: 'min(90vw, 1200px)',
+            marginLeft: 'calc(min(90vw, 1200px) * -0.5)',
+            marginTop: 'calc(min(90vw, 1200px) * -0.5)',
+            background: 'radial-gradient(circle at 35% 35%, rgba(251,191,36,0.07) 0%, rgba(251,191,36,0.017) 30%, rgba(255,255,255,0.007) 50%, transparent 70%)',
+            border: '1.5px solid rgba(251,191,36,0.07)',
+            boxShadow: 'inset 0 0 100px rgba(251,191,36,0.03), 0 0 150px rgba(251,191,36,0.017)',
+            x: sphereX,
+            y: sphereY,
           }}
-          animate={{ opacity: [0.2, 0.7, 0.2], y: [0, (i % 2 === 0 ? -8 : 8), 0] }}
-          transition={{ duration: 3 + (i % 4), repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
         />
-      ))}
 
-      {/* Main content */}
+        <motion.div
+          className="rounded-full"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: 'calc(58% + 150px)',
+            width: 'min(96vw, 1400px)',
+            height: 'min(96vw, 1400px)',
+            marginLeft: 'calc(min(96vw, 1400px) * -0.5)',
+            marginTop: 'calc(min(96vw, 1400px) * -0.5)',
+            border: '1.5px solid rgba(251,191,36,0.08)',
+            boxShadow: '0 0 20px rgba(251,191,36,0.02)',
+            x: ring1X,
+            y: ring1Y,
+          }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+        />
+
+        <motion.div
+          className="rounded-full"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: 'calc(58% + 150px)',
+            width: 'min(88vw, 1300px)',
+            height: 'min(88vw, 1300px)',
+            marginLeft: 'calc(min(88vw, 1300px) * -0.5)',
+            marginTop: 'calc(min(88vw, 1300px) * -0.5)',
+            border: '1.5px solid rgba(251,191,36,0.06)',
+            boxShadow: '0 0 15px rgba(251,191,36,0.015)',
+            x: ring2X,
+            y: ring2Y,
+          }}
+          animate={{ rotate: -360 }}
+          transition={{ duration: 65, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {Array.from({ length: 18 }, (_, i) => {
+          const group = i % 3;
+          const radius = 590 + group * 55 + (i * 7) % 31 - 15;
+          const angleOffset = (i / 18) * 2 * Math.PI;
+          const speed = 57 + group * 34;
+          const size = 3 + group;
+          const steps = 16;
+          const xKf = Array.from({ length: steps + 1 }, (_, k) =>
+            radius * Math.cos((k / steps) * 2 * Math.PI + angleOffset)
+          );
+          const yKf = Array.from({ length: steps + 1 }, (_, k) =>
+            radius * Math.sin((k / steps) * 2 * Math.PI + angleOffset)
+          );
+          return (
+            <motion.div
+              key={`orbit-${i}`}
+              className="absolute rounded-full"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: 'calc(58% + 150px)',
+                width: size,
+                height: size,
+                marginLeft: -size / 2,
+                marginTop: -size / 2,
+                background: 'rgb(251, 191, 36)',
+                boxShadow: `0 0 ${size * 5}px rgba(251,191,36,0.5), 0 0 ${size * 10}px rgba(251,191,36,0.2)`,
+              }}
+              initial={{ x: xKf[0], y: yKf[0] }}
+              animate={{
+                x: xKf,
+                y: yKf,
+                opacity: [0.15, 0.7, 0.3, 0.6, 0.15],
+                scale: [1, 1.5, 0.8, 1.3, 1],
+              }}
+              transition={{
+                duration: speed,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+          );
+        })}
+      </div>
+
       <Container className="w-full relative z-10 pt-32 pb-section-sm md:pb-section">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center"
+          className="grid lg:grid-cols-2 gap-20 lg:gap-28 items-center"
         >
-          {/* Left: Text block */}
-          <motion.div variants={itemVariants} className="space-y-10">
-            <div className="space-y-8">
+          <motion.div variants={itemVariants} className="space-y-12">
+            <div className="space-y-10">
               <div className="overflow-hidden">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -153,7 +218,7 @@ export default function Hero({ onCalculate }) {
 
               <motion.h1
                 variants={itemVariants}
-                className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[1.05] tracking-tight text-premium-text"
+                className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-[1.0] tracking-tight text-premium-text"
               >
                 Узнайте свой
                 <br />
@@ -171,7 +236,7 @@ export default function Hero({ onCalculate }) {
               </motion.p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {benefits.map((benefit, i) => {
                 const Icon = benefit.icon;
                 return (
@@ -186,89 +251,83 @@ export default function Hero({ onCalculate }) {
             </div>
           </motion.div>
 
-          {/* Right: Premium Glass Form */}
-          <motion.div variants={cardVariants} className="relative">
-            {/* Glow behind card */}
-            <motion.div
-              className="absolute -inset-10 rounded-[3rem] pointer-events-none"
-              style={{
-                background: 'radial-gradient(circle at center, rgba(251,191,36,0.06) 0%, transparent 70%)',
-                filter: 'blur(40px)',
-              }}
-              animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.95, 1.05, 0.95] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            />
-
-            <GlassCard
-              glow
-              className="relative !p-0 overflow-hidden group"
-              style={{ animation: 'card-float 6s ease-in-out infinite' }}
-            >
-              {/* Subtle inner border glow */}
-              <div
-                className="absolute inset-0 rounded-card pointer-events-none"
+          <motion.div variants={cardVariants} className="relative flex items-center justify-center" style={{ minHeight: '620px' }}>
+            <div className="relative z-10 w-full max-w-md">
+              <motion.div
+                className="absolute -inset-6 rounded-[2rem] pointer-events-none"
                 style={{
-                  boxShadow: 'inset 0 1px 0 rgba(251,191,36,0.1), inset 0 0 60px rgba(251,191,36,0.02)',
+                  background: 'radial-gradient(circle at center, rgba(251,191,36,0.05) 0%, transparent 70%)',
+                  filter: 'blur(30px)',
                 }}
+                animate={{ opacity: [0.4, 0.65, 0.4], scale: [0.97, 1.03, 0.97] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               />
 
-              {/* Card content */}
-              <div className="p-8 md:p-10 space-y-7">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-[1px] bg-amber-400/30" />
-                    <span className="text-amber-400/60 text-[10px] font-sans uppercase tracking-[0.25em] font-medium">
-                      Бесплатный расчёт
-                    </span>
+              <GlassCard glow className="relative !p-0 overflow-hidden group">
+                <div
+                  className="absolute inset-0 rounded-card pointer-events-none"
+                  style={{
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(251,191,36,0.04), inset 0 0 80px rgba(251,191,36,0.02)',
+                  }}
+                />
+
+                <div className="p-8 md:p-10 space-y-7">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-[1px] bg-amber-400/30" />
+                      <span className="text-amber-400/60 text-[11px] font-sans uppercase tracking-[0.2em] font-medium">
+                        Бесплатный расчёт
+                      </span>
+                    </div>
+                    <h3 className="font-serif text-2xl md:text-3xl font-light text-premium-text leading-[1.15]">
+                      Рассчитайте свой код
+                    </h3>
+                    <p className="text-premium-text-secondary/70 text-sm font-sans leading-relaxed">
+                      Введите данные, чтобы узнать число вашего жизненного пути
+                    </p>
                   </div>
-                  <h3 className="font-serif text-2xl md:text-3xl font-light text-premium-text leading-[1.15]">
-                    Рассчитайте свой код
-                  </h3>
-                  <p className="text-premium-text-secondary/70 text-sm font-sans leading-relaxed">
-                    Введите данные, чтобы узнать число вашего жизненного пути
+
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="space-y-2">
+                      <label className="text-[11px] text-premium-text-secondary/60 font-sans uppercase tracking-[0.15em]">
+                        Ваше имя
+                      </label>
+                      <Input
+                        icon={User}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Александр"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[11px] text-premium-text-secondary/60 font-sans uppercase tracking-[0.15em]">
+                        Дата рождения
+                      </label>
+                      <Input
+                        icon={Calendar}
+                        type="date"
+                        value={birthDate}
+                        onChange={(e) => setBirthDate(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <Button type="submit" size="xl" className="w-full">
+                      Рассчитать мой код
+                      <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
+                    </Button>
+                  </form>
+
+                  <p className="text-center text-premium-text-secondary/40 text-[11px] font-sans flex items-center justify-center gap-1.5">
+                    <Lock className="w-3 h-3" />
+                    Ваши данные в безопасности
                   </p>
                 </div>
-
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="space-y-2">
-                    <label className="text-[11px] text-premium-text-secondary/60 font-sans uppercase tracking-[0.15em]">
-                      Ваше имя
-                    </label>
-                    <Input
-                      icon={User}
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Александр"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[11px] text-premium-text-secondary/60 font-sans uppercase tracking-[0.15em]">
-                      Дата рождения
-                    </label>
-                    <Input
-                      icon={Calendar}
-                      type="date"
-                      value={birthDate}
-                      onChange={(e) => setBirthDate(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <Button type="submit" size="xl" className="w-full">
-                    Рассчитать мой код
-                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
-                  </Button>
-                </form>
-
-                <p className="text-center text-premium-text-secondary/40 text-[11px] font-sans flex items-center justify-center gap-1.5">
-                  <Lock className="w-3 h-3" />
-                  Ваши данные в безопасности
-                </p>
-              </div>
-            </GlassCard>
+              </GlassCard>
+            </div>
           </motion.div>
         </motion.div>
       </Container>
