@@ -1,5 +1,6 @@
 node_modules/
 dist/
+doc/
 .vscode/
 .idea/
 .env
@@ -11,4 +12,3 @@ prompt_create.md
 history_project.md
 analiz.md
 start.bat
-doc/
