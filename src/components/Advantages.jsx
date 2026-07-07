@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import { Users, FileText, Gem } from 'lucide-react';
-import { Container, Divider, IconBox } from '../ui';
+import { Container, Section, Divider, IconBox } from '../ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,9 +22,37 @@ const stats = [
   { icon: FileText, value: 'Детальная карта', label: 'Подробный печатный разбор' },
 ];
 
+function AnimatedNumber({ value }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  const [display, setDisplay] = useState('');
+
+  useEffect(() => {
+    if (!isInView) return;
+    const num = parseInt(value.replace(/[^0-9]/g, ''));
+    if (isNaN(num)) { setDisplay(value); return; }
+    const suffix = value.replace(/[0-9]/g, '');
+    let start = 0;
+    const duration = 1500;
+    const step = Math.max(1, Math.floor(num / 30));
+    const interval = setInterval(() => {
+      start += step;
+      if (start >= num) {
+        setDisplay(value);
+        clearInterval(interval);
+      } else {
+        setDisplay(start + suffix);
+      }
+    }, duration / (num / step));
+    return () => clearInterval(interval);
+  }, [isInView, value]);
+
+  return <span>{display || value}</span>;
+}
+
 export default function Advantages() {
   return (
-    <div className="relative z-10 pb-section-sm">
+    <Section className="pt-0 md:pt-0">
       <Container>
         <Divider className="mb-12" />
 
@@ -41,14 +70,14 @@ export default function Advantages() {
                 key={i}
                 variants={itemVariants}
                 className="text-center space-y-3"
-                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }}
+                whileHover={{ y: -6, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }}
               >
                 <IconBox icon={Icon} size="md" className="!mx-auto" />
                 <div className="space-y-1">
-                  <p className="font-serif text-xl md:text-2xl font-light text-premium-text">
-                    {stat.value}
+                  <p className="typo-h4 text-premium-text">
+                    <AnimatedNumber value={stat.value} />
                   </p>
-                  <p className="text-premium-text-secondary text-sm font-sans">
+                  <p className="typo-small text-premium-text-secondary">
                     {stat.label}
                   </p>
                 </div>
@@ -59,6 +88,6 @@ export default function Advantages() {
 
         <Divider className="mt-12" />
       </Container>
-    </div>
+    </Section>
   );
 }

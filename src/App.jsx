@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <motion.div
-      className="relative min-h-screen bg-premium-bg"
+      className="relative min-h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Calendar, User, ArrowRight, Shield, Sparkles, BarChart3, Lock } from 'lucide-react';
-import { Container, GlassCard, Input, Button } from '../ui';
+import { GlassCard, Input, Button } from '../ui';
 
 const benefits = [
   { icon: Shield, text: 'Более 1200 консультаций' },
@@ -58,6 +58,18 @@ export default function Hero({ onCalculate }) {
   const ring3X = useTransform(springX, [0, 1], [-5, 5]);
   const ring3Y = useTransform(springY, [0, 1], [-5, 5]);
 
+  const [orbitScale, setOrbitScale] = useState(1);
+  useEffect(() => {
+    const update = () => {
+      const vw = window.innerWidth;
+      const sphereSize = Math.min(vw * 0.9, 1200);
+      setOrbitScale(sphereSize / 1200);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -68,27 +80,27 @@ export default function Hero({ onCalculate }) {
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1400px] max-h-[1400px] rounded-full"
         style={{
-          background: 'radial-gradient(circle at center, rgba(251,191,36,0.06) 0%, transparent 60%)',
+          background: 'radial-gradient(circle at center, rgba(212,168,83,0.06) 0%, transparent 60%)',
         }}
       />
 
       <motion.div
         className="absolute top-[15%] right-[8%] w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle at center, rgba(251,191,36,0.04) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at center, rgba(212,168,83,0.03) 0%, transparent 70%)',
           filter: 'blur(60px)',
         }}
-        animate={{ y: [0, -30, 0], scale: [1, 1.08, 1], opacity: [0.5, 0.8, 0.5] }}
+        animate={{ y: [0, -30, 0], scale: [1, 1.08, 1], opacity: [0.4, 0.7, 0.4] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <motion.div
         className="absolute bottom-[25%] left-[5%] w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle at center, rgba(251,191,36,0.03) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at center, rgba(212,168,83,0.02) 0%, transparent 70%)',
           filter: 'blur(80px)',
         }}
-        animate={{ y: [0, 25, 0], scale: [1, 1.05, 1], opacity: [0.4, 0.7, 0.4] }}
+        animate={{ y: [0, 25, 0], scale: [1, 1.05, 1], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
       />
 
@@ -104,9 +116,9 @@ export default function Hero({ onCalculate }) {
             height: 'min(90vw, 1200px)',
             marginLeft: 'calc(min(90vw, 1200px) * -0.5)',
             marginTop: 'calc(min(90vw, 1200px) * -0.5)',
-            background: 'radial-gradient(circle at 35% 35%, rgba(251,191,36,0.07) 0%, rgba(251,191,36,0.017) 30%, rgba(255,255,255,0.007) 50%, transparent 70%)',
-            border: '1.5px solid rgba(251,191,36,0.07)',
-            boxShadow: 'inset 0 0 100px rgba(251,191,36,0.03), 0 0 150px rgba(251,191,36,0.017)',
+            background: 'radial-gradient(circle at 35% 35%, rgba(212,168,83,0.07) 0%, rgba(212,168,83,0.017) 30%, rgba(255,255,255,0.007) 50%, transparent 70%)',
+            border: '1.5px solid rgba(212,168,83,0.07)',
+            boxShadow: 'inset 0 0 100px rgba(212,168,83,0.03), 0 0 150px rgba(212,168,83,0.017)',
             x: sphereX,
             y: sphereY,
           }}
@@ -122,8 +134,8 @@ export default function Hero({ onCalculate }) {
             height: 'min(96vw, 1400px)',
             marginLeft: 'calc(min(96vw, 1400px) * -0.5)',
             marginTop: 'calc(min(96vw, 1400px) * -0.5)',
-            border: '1.5px solid rgba(251,191,36,0.08)',
-            boxShadow: '0 0 20px rgba(251,191,36,0.02)',
+            border: '1.5px solid rgba(212,168,83,0.08)',
+            boxShadow: '0 0 20px rgba(212,168,83,0.02)',
             x: ring1X,
             y: ring1Y,
           }}
@@ -141,8 +153,8 @@ export default function Hero({ onCalculate }) {
             height: 'min(88vw, 1300px)',
             marginLeft: 'calc(min(88vw, 1300px) * -0.5)',
             marginTop: 'calc(min(88vw, 1300px) * -0.5)',
-            border: '1.5px solid rgba(251,191,36,0.06)',
-            boxShadow: '0 0 15px rgba(251,191,36,0.015)',
+            border: '1.5px solid rgba(212,168,83,0.06)',
+            boxShadow: '0 0 15px rgba(212,168,83,0.015)',
             x: ring2X,
             y: ring2Y,
           }}
@@ -152,7 +164,7 @@ export default function Hero({ onCalculate }) {
 
         {Array.from({ length: 18 }, (_, i) => {
           const group = i % 3;
-          const radius = 590 + group * 55 + (i * 7) % 31 - 15;
+          const radius = (590 + group * 55 + (i * 7) % 31 - 15) * orbitScale;
           const angleOffset = (i / 18) * 2 * Math.PI;
           const speed = 57 + group * 34;
           const size = 3 + group;
@@ -175,8 +187,8 @@ export default function Hero({ onCalculate }) {
                 height: size,
                 marginLeft: -size / 2,
                 marginTop: -size / 2,
-                background: 'rgb(251, 191, 36)',
-                boxShadow: `0 0 ${size * 5}px rgba(251,191,36,0.5), 0 0 ${size * 10}px rgba(251,191,36,0.2)`,
+                background: 'rgb(212, 168, 83)',
+                boxShadow: `0 0 ${size * 5}px rgba(212,168,83,0.5), 0 0 ${size * 10}px rgba(212,168,83,0.2)`,
               }}
               initial={{ x: xKf[0], y: yKf[0] }}
               animate={{
@@ -195,7 +207,7 @@ export default function Hero({ onCalculate }) {
         })}
       </div>
 
-      <Container className="w-full relative z-10 pt-32 pb-section-sm md:pb-section">
+      <div className="w-full relative z-10 pt-32 pb-8 md:pb-12 max-w-[1400px] mx-auto px-6 md:px-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -209,7 +221,7 @@ export default function Hero({ onCalculate }) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="inline-flex items-center gap-2 text-amber-400/60 text-xs font-sans uppercase tracking-[0.2em] font-medium"
+                  className="inline-flex items-center gap-2 typo-caption text-amber-400/60"
                 >
                   <span className="w-6 h-[1px] bg-amber-400/40" />
                   Персональная нумерология
@@ -218,7 +230,7 @@ export default function Hero({ onCalculate }) {
 
               <motion.h1
                 variants={itemVariants}
-                className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-[1.0] tracking-tight text-premium-text"
+                className="typo-display text-premium-text"
               >
                 Узнайте свой
                 <br />
@@ -229,26 +241,42 @@ export default function Hero({ onCalculate }) {
 
               <motion.p
                 variants={itemVariants}
-                className="text-premium-text-secondary text-base sm:text-lg md:text-xl leading-relaxed max-w-lg font-sans font-light"
+                className="typo-lead text-premium-text-secondary max-w-lg"
               >
                 Персональный нумерологический разбор вашей даты рождения.
                 Откройте свои сильные стороны и предназначение.
               </motion.p>
             </div>
 
-            <div className="space-y-4">
+            <motion.div variants={itemVariants} className="space-y-4">
               {benefits.map((benefit, i) => {
                 const Icon = benefit.icon;
                 return (
-                  <div key={i} className="flex items-center gap-3 text-premium-text-secondary text-sm sm:text-base font-light">
-                    <div className="w-5 h-5 rounded-full bg-amber-400/10 flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-3 h-3 text-amber-400" />
-                    </div>
+                  <motion.div
+                    key={i}
+                    className="flex items-center gap-4 typo-body text-premium-text-secondary"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.7 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                    whileHover={{ x: 4 }}
+                  >
+                    <motion.div
+                      className="w-6 h-6 rounded-full bg-amber-400/10 flex items-center justify-center flex-shrink-0"
+                      whileHover={{ scale: 1.25, backgroundColor: 'rgba(212,168,83,0.2)' }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <motion.div
+                        whileHover={{ rotate: [0, -10, 10, 0] }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <Icon className="w-3.5 h-3.5 text-amber-400" />
+                      </motion.div>
+                    </motion.div>
                     {benefit.text}
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div variants={cardVariants} className="relative flex items-center justify-center" style={{ minHeight: '620px' }}>
@@ -256,40 +284,58 @@ export default function Hero({ onCalculate }) {
               <motion.div
                 className="absolute -inset-6 rounded-[2rem] pointer-events-none"
                 style={{
-                  background: 'radial-gradient(circle at center, rgba(251,191,36,0.05) 0%, transparent 70%)',
+                  background: 'radial-gradient(circle at center, rgba(212,168,83,0.05) 0%, transparent 70%)',
                   filter: 'blur(30px)',
                 }}
                 animate={{ opacity: [0.4, 0.65, 0.4], scale: [0.97, 1.03, 0.97] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               />
 
-              <GlassCard glow className="relative !p-0 overflow-hidden group">
+              <GlassCard glow variant="elevated" className="relative !p-0 overflow-hidden group">
                 <div
                   className="absolute inset-0 rounded-card pointer-events-none"
                   style={{
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(251,191,36,0.04), inset 0 0 80px rgba(251,191,36,0.02)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(212,168,83,0.04), inset 0 0 80px rgba(212,168,83,0.02)',
                   }}
                 />
 
-                <div className="p-8 md:p-10 space-y-7">
+                <div className="p-8 md:p-12 space-y-8">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-[1px] bg-amber-400/30" />
-                      <span className="text-amber-400/60 text-[11px] font-sans uppercase tracking-[0.2em] font-medium">
+                      <span className="typo-caption text-amber-400/60">
                         Бесплатный расчёт
                       </span>
                     </div>
-                    <h3 className="font-serif text-2xl md:text-3xl font-light text-premium-text leading-[1.15]">
+                    <h3 className="typo-h3 text-premium-text">
                       Рассчитайте свой код
                     </h3>
-                    <p className="text-premium-text-secondary/70 text-sm font-sans leading-relaxed">
+                    <p className="typo-small text-premium-text-secondary/70">
                       Введите данные, чтобы узнать число вашего жизненного пути
                     </p>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="space-y-2">
-                      <label className="text-[11px] text-premium-text-secondary/60 font-sans uppercase tracking-[0.15em]">
+                  <motion.form
+                    onSubmit={handleSubmit}
+                    className="space-y-5"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+                      },
+                    }}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <motion.div
+                      className="space-y-2"
+                      variants={{
+                        hidden: { opacity: 0, y: 15 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+                      }}
+                    >
+                      <label className="typo-caption text-premium-text-secondary/60">
                         Ваше имя
                       </label>
                       <Input
@@ -300,10 +346,16 @@ export default function Hero({ onCalculate }) {
                         placeholder="Александр"
                         required
                       />
-                    </div>
+                    </motion.div>
 
-                    <div className="space-y-2">
-                      <label className="text-[11px] text-premium-text-secondary/60 font-sans uppercase tracking-[0.15em]">
+                    <motion.div
+                      className="space-y-2"
+                      variants={{
+                        hidden: { opacity: 0, y: 15 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+                      }}
+                    >
+                      <label className="typo-caption text-premium-text-secondary/60">
                         Дата рождения
                       </label>
                       <Input
@@ -313,15 +365,30 @@ export default function Hero({ onCalculate }) {
                         onChange={(e) => setBirthDate(e.target.value)}
                         required
                       />
-                    </div>
+                    </motion.div>
 
-                    <Button type="submit" size="xl" className="w-full">
-                      Рассчитать мой код
-                      <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
-                    </Button>
-                  </form>
+                    <motion.div
+                      variants={{
+                        hidden: { opacity: 0, y: 15 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+                      }}
+                    >
+                      <Button type="submit" size="xl" className="w-full">
+                        Рассчитать мой код
+                        <motion.span
+                          className="inline-flex"
+                          variants={{ rest: { x: 0 }, hover: { x: 3 } }}
+                          initial="rest"
+                          whileHover="hover"
+                          transition={{ duration: 0.4 }}
+                        >
+                          <ArrowRight className="w-4 h-4" />
+                        </motion.span>
+                      </Button>
+                    </motion.div>
+                  </motion.form>
 
-                  <p className="text-center text-premium-text-secondary/40 text-[11px] font-sans flex items-center justify-center gap-1.5">
+                  <p className="text-center typo-caption text-premium-text-secondary/40 flex items-center justify-center gap-1.5">
                     <Lock className="w-3 h-3" />
                     Ваши данные в безопасности
                   </p>
@@ -330,7 +397,7 @@ export default function Hero({ onCalculate }) {
             </div>
           </motion.div>
         </motion.div>
-      </Container>
+      </div>
     </section>
   );
 }

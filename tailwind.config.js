@@ -4,13 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        amber: {
+          300: '#e8c872',
+          400: '#d4a853',
+        },
         premium: {
           bg: '#020617',
           card: '#111827',
-          accent: '#fbbf24',
-          'accent-light': '#fcd34d',
+          accent: '#d4a853',
+          'accent-light': '#e8c872',
           text: '#f8fafc',
-          'text-secondary': '#94a3b8',
+          'text-secondary': '#a8b8cc',
           border: 'rgba(255,255,255,0.06)',
         },
       },
@@ -21,9 +25,10 @@ export default {
 
       /* ── Design System: Spacing ── */
       spacing: {
-        'section': '7rem',
-        'section-sm': '4rem',
+        'section': '12rem',
+        'section-sm': '8rem',
         '18': '4.5rem',
+        '22': '5.5rem',
         '88': '22rem',
         '128': '32rem',
       },
@@ -38,11 +43,11 @@ export default {
 
       /* ── Design System: Box Shadow ── */
       boxShadow: {
-        'card': '0 0 40px rgba(251, 191, 36, 0.08), 0 0 80px rgba(251, 191, 36, 0.04)',
-        'card-hover': '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(251, 191, 36, 0.06)',
-        'button': '0 4px 20px rgba(251, 191, 36, 0.15)',
-        'button-hover': '0 8px 30px rgba(251, 191, 36, 0.25)',
-        'gold': '0 0 40px rgba(251, 191, 36, 0.08), 0 0 80px rgba(251, 191, 36, 0.04)',
+        'card': '0 0 40px rgba(212, 168, 83, 0.08), 0 0 80px rgba(212, 168, 83, 0.04)',
+        'card-hover': '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(212, 168, 83, 0.06)',
+        'button': '0 4px 20px rgba(212, 168, 83, 0.15)',
+        'button-hover': '0 8px 30px rgba(212, 168, 83, 0.25)',
+        'gold': '0 0 40px rgba(212, 168, 83, 0.08), 0 0 80px rgba(212, 168, 83, 0.04)',
       },
 
       /* ── Design System: Transitions ── */

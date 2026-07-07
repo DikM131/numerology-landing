@@ -6,15 +6,25 @@ export default function GlassCard({
   glow = true,
   padding = true,
   hover = false,
+  variant = 'default',
   ...props
 }) {
-  const base = `glass-light rounded-card ${padding ? 'p-8 md:p-10' : ''} ${glow ? 'shadow-gold' : ''} ${className}`;
+  const variantMap = {
+    subtle: 'glass-card-subtle',
+    default: 'glass-card',
+    elevated: 'glass-card-elevated',
+    solid: 'glass-card-solid',
+  };
+  const base = `${variantMap[variant] || 'glass-card'} ${hover ? 'glass-card-hover' : ''} ${glow ? 'glass-card-glow' : ''} rounded-card ${padding ? 'p-8 md:p-12' : ''} ${className}`;
 
   if (hover) {
     return (
       <motion.div
         className={base}
-        whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }}
+        whileHover={{
+          y: -4,
+          transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+        }}
         {...props}
       >
         {children}

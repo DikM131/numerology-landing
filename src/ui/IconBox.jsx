@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 export default function IconBox({ icon: Icon, className = '', size = 'md' }) {
   const sizes = {
     sm: 'w-10 h-10 rounded-icon',
@@ -12,10 +14,27 @@ export default function IconBox({ icon: Icon, className = '', size = 'md' }) {
   };
 
   return (
-    <div
-      className={`${sizes[size]} bg-amber-400/5 flex items-center justify-center flex-shrink-0 group-hover:bg-amber-400/10 transition-colors duration-300 ${className}`}
+    <motion.div
+      className={`${sizes[size]} bg-amber-400/5 flex items-center justify-center flex-shrink-0 ${className}`}
+      whileHover={{
+        scale: 1.15,
+        rotate: 4,
+        backgroundColor: 'rgba(212,168,83,0.12)',
+        boxShadow: '0 0 30px rgba(212,168,83,0.15)',
+        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+      }}
     >
-      {Icon && <Icon className={`${iconSizes[size]} text-amber-400/60`} />}
-    </div>
+      {Icon && (
+        <motion.div
+          whileHover={{
+            rotate: -4,
+            scale: 1.1,
+            transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+          }}
+        >
+          <Icon className={`${iconSizes[size]} text-amber-400/60`} />
+        </motion.div>
+      )}
+    </motion.div>
   );
 }

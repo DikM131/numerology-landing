@@ -23,10 +23,10 @@ export default function ResultSection({ name, number, data }) {
       className="text-center space-y-10"
     >
       <motion.div variants={fadeUp} className="space-y-3">
-        <p className="font-sans text-premium-text-secondary text-sm md:text-base tracking-widest uppercase">
+        <p className="typo-caption text-premium-text-secondary">
           Ваш персональный код
         </p>
-        <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-light text-premium-text">
+        <h2 className="typo-h2 text-premium-text">
           {name}, ваше Число Пути —{' '}
           <span className="text-gradient-gold">{number}</span>
         </h2>
@@ -39,7 +39,7 @@ export default function ResultSection({ name, number, data }) {
           transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1], type: 'spring', stiffness: 80 }}
           className="text-[100px] md:text-[120px] lg:text-[140px] font-serif font-light text-amber-400/90 select-none"
           style={{
-            textShadow: '0 0 40px rgba(251,191,36,0.15), 0 0 80px rgba(251,191,36,0.05)',
+            textShadow: '0 0 40px rgba(212,168,83,0.15), 0 0 80px rgba(212,168,83,0.05)',
           }}
         >
           {number}
@@ -52,24 +52,24 @@ export default function ResultSection({ name, number, data }) {
             className="w-48 h-48 rounded-full"
             style={{
               background:
-                'radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%)',
+                'radial-gradient(circle, rgba(212,168,83,0.15) 0%, transparent 70%)',
             }}
           />
         </div>
       </motion.div>
 
       <motion.div variants={fadeUp} className="max-w-2xl mx-auto space-y-6">
-        <h3 className="font-serif text-2xl md:text-3xl font-light text-premium-text">
+        <h3 className="typo-h3 text-premium-text">
           {data.title}
         </h3>
-        <p className="text-premium-text-secondary text-base md:text-lg font-sans leading-relaxed font-light">
+        <p className="typo-lead text-premium-text-secondary">
           {data.description}
         </p>
         <Card hover={false} padding={false} className="rounded-2xl p-6 md:p-8 text-left">
-          <p className="text-sm text-premium-text-secondary font-sans uppercase tracking-widest mb-3">
+          <p className="typo-caption text-premium-text-secondary mb-3">
             Ваша главная сила
           </p>
-          <p className="text-premium-text font-serif text-lg md:text-xl font-light italic">
+          <p className="typo-h4 text-premium-text italic">
             &ldquo;{data.strength}&rdquo;
           </p>
         </Card>

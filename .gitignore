@@ -6,3 +6,9 @@ dist/
 .env.*
 *.log
 *.zip
+*.png
+prompt_create.md
+history_project.md
+analiz.md
+start.bat
+doc/

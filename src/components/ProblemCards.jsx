@@ -51,19 +51,20 @@ export default function ProblemCards() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
-          className="grid md:grid-cols-3 gap-6 lg:gap-8"
+          className="grid md:grid-cols-3 gap-8 lg:gap-10"
         >
           {problems.map((problem, i) => {
             const Icon = problem.icon;
+            const isCenter = i === 1;
             return (
-              <Card key={i} as={motion.div} variants={cardVariants}>
+              <Card key={i} as={motion.div} variants={cardVariants} className={isCenter ? 'md:py-14' : ''}>
                 <div className="space-y-5">
                   <IconBox icon={Icon} size="lg" />
                   <div className="space-y-3">
-                    <h3 className="font-serif text-xl md:text-2xl font-light text-premium-text">
+                    <h3 className={`${isCenter ? 'typo-h3' : 'typo-h4'} text-premium-text`}>
                       {problem.title}
                     </h3>
-                    <p className="text-premium-text-secondary text-sm font-sans leading-relaxed">
+                    <p className="typo-body text-premium-text-secondary">
                       {problem.description}
                     </p>
                   </div>

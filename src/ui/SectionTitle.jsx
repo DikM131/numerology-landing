@@ -9,18 +9,18 @@ export default function SectionTitle({
   animate = true,
 }) {
   const content = (
-    <div className={`text-center mb-16 space-y-4 ${className}`}>
+    <div className={`text-center mb-20 space-y-5 ${className}`}>
       {overline && (
-        <p className="font-sans text-premium-text-secondary text-xs md:text-sm tracking-[0.2em] uppercase">
+        <p className="typo-caption text-premium-text-secondary">
           {overline}
         </p>
       )}
-      <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1]">
+      <h2 className="typo-h1 text-balance-heading">
         {title}{' '}
         {highlight && <span className="text-gradient-gold">{highlight}</span>}
       </h2>
       {subtitle && (
-        <p className="text-premium-text-secondary text-base md:text-lg font-sans max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="typo-lead text-premium-text-secondary max-w-2xl mx-auto">
           {subtitle}
         </p>
       )}

@@ -22,7 +22,7 @@ export default function NotImplementedModal({ isOpen, onClose }) {
           />
 
           <motion.div
-            className="relative glass rounded-3xl p-10 md:p-14 text-center max-w-md mx-6 space-y-6"
+            className="relative glass-card rounded-3xl p-10 md:p-14 text-center max-w-md mx-6 space-y-6"
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -32,10 +32,10 @@ export default function NotImplementedModal({ isOpen, onClose }) {
               <AlertCircle className="w-7 h-7 text-amber-400/60" />
             </div>
             <div className="space-y-2">
-              <h3 className="font-serif text-2xl font-light text-premium-text">
+              <h3 className="typo-h3 text-premium-text">
                 Ещё не реализовано
               </h3>
-              <p className="text-premium-text-secondary text-sm font-sans">
+              <p className="typo-small text-premium-text-secondary">
                 Этот раздел появится в будущей версии.
                 <br />
                 Следите за обновлениями.

@@ -38,7 +38,7 @@ export default function Calculator({ name, birthDate, onReset }) {
               <div className="mt-8 text-center">
                 <button
                   onClick={onReset}
-                  className="text-premium-text-secondary/50 text-xs font-sans hover:text-premium-text-secondary/70 transition-colors duration-300 underline underline-offset-4"
+                  className="typo-caption text-premium-text-secondary/50 hover:text-premium-text-secondary/70 transition-colors duration-300 underline underline-offset-4"
                 >
                   Рассчитать заново
                 </button>

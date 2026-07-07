@@ -37,7 +37,7 @@ export default function Header() {
         <motion.div
           className="absolute top-0 left-0 right-0 h-[1px] origin-left z-20 pointer-events-none"
           style={{
-            background: 'linear-gradient(90deg, rgba(251,191,36,0.6), rgba(251,191,36,0.2))',
+            background: 'linear-gradient(90deg, rgba(212,168,83,0.6), rgba(212,168,83,0.2))',
             scaleX: progress,
             opacity: progress > 0.01 ? 1 : 0,
           }}
@@ -55,24 +55,34 @@ export default function Header() {
             background: 'rgba(2, 6, 23, 0.7)',
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
-            borderBottom: scrolled ? '1px solid rgba(251,191,36,0.1)' : '1px solid transparent',
+            borderBottom: scrolled ? '1px solid rgba(212,168,83,0.1)' : '1px solid transparent',
             boxShadow: scrolled ? '0 4px 30px rgba(0,0,0,0.15)' : 'none',
           }}
         />
 
         <Container className="h-full flex items-center justify-between relative z-10">
-          <a href="#hero" className="flex items-center" onClick={closeMobile}>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-300 flex items-center justify-center">
+          <motion.a
+            href="#hero"
+            className="flex items-center"
+            onClick={closeMobile}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <motion.div
+              className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-300 flex items-center justify-center"
+              whileHover={{ boxShadow: '0 0 25px rgba(212,168,83,0.4)' }}
+              transition={{ duration: 0.4 }}
+            >
               <span className="text-premium-bg font-serif font-bold text-[15px] tracking-tight">N</span>
-            </div>
-          </a>
+            </motion.div>
+          </motion.a>
 
           <nav className="hidden lg:flex items-center gap-10">
             {navItems.map((item) => (
               <motion.a
                 key={item.href}
                 href={item.href}
-                className="text-premium-text-secondary/80 text-[13px] font-sans tracking-[0.03em]"
+                className="typo-small text-premium-text-secondary/80 relative"
                 whileHover={{
                   color: '#f8fafc',
                   y: -1,
@@ -80,6 +90,12 @@ export default function Header() {
                 }}
               >
                 {item.label}
+                <motion.div
+                  className="absolute -bottom-1 left-0 right-0 h-[1px] bg-amber-400/50 origin-left"
+                  initial={{ scaleX: 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                />
               </motion.a>
             ))}
           </nav>
@@ -89,7 +105,7 @@ export default function Header() {
               Консультация
             </Button>
 
-            <button
+            <motion.button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden w-9 h-9 rounded-full flex items-center justify-center"
               style={{
@@ -97,13 +113,32 @@ export default function Header() {
                 border: '1px solid rgba(255,255,255,0.06)',
               }}
               aria-label={mobileOpen ? 'Закрыть меню' : 'Открыть меню'}
+              whileHover={{ scale: 1.1, borderColor: 'rgba(212,168,83,0.2)' }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ duration: 0.3 }}
             >
               {mobileOpen ? (
-                <X className="w-4 h-4 text-premium-text" />
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <X className="w-4 h-4 text-premium-text" />
+                </motion.div>
               ) : (
-                <Menu className="w-4 h-4 text-premium-text" />
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Menu className="w-4 h-4 text-premium-text" />
+                </motion.div>
               )}
-            </button>
+            </motion.button>
           </div>
         </Container>
       </motion.header>
@@ -136,7 +171,7 @@ export default function Header() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-premium-text text-xl font-sans tracking-wide hover:text-amber-400 transition-colors"
+                  className="typo-h4 text-premium-text hover:text-amber-400 transition-colors"
                 >
                   {item.label}
                 </motion.a>
